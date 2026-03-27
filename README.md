@@ -17,7 +17,6 @@
 | [Logo Forgery Detection](logo-forgery-detection/) | Computer Vision | Siamese Networks, EfficientNetV2-S, FAISS |
 | [NLP Sentiment](nlp-sentiment/) | NLP / Finanças | TF-IDF, Word2Vec, BERT, FinBERT |
 | [Fraud Detection](fraud-detection/) | Classificação / Finanças | Dataset 6.3M transações, ensemble |
-| [Stock Price Forecast](stock-price-forecast/) | Séries Temporais | LSTM, GRU, RNN |
 | [Iris Classifier](iris-classifier/) | Classificação Clássica | Múltiplos algoritmos, Cross-Validation |
 
 ---
