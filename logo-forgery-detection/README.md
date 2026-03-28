@@ -50,7 +50,7 @@ Verificar a **autenticidade de logos** usando uma rede siamesa que aprende embed
 | **Contrastive Loss (margin=1.5)** | Margem calibrada para embeddings normalizados (max dist=2.0), equilibrando separação e convergência |
 | **Treino em 2 fases** | Fase 1 (backbone frozen, lr=1e-3) estabiliza projection head; Fase 2 (unfrozen, lr=1e-4) faz fine-tuning sem destruir features ImageNet |
 | **Mixed Precision (AMP)** | ~2x speedup em GPUs com Tensor Cores, essencial para viabilizar treino no Kaggle |
-| **Split por imagem** | Zero data leakage — imagens de treino nunca aparecem em val/test |
+| **Split por imagem** | Zero data leakage — imagens de treino nunca aparecem em teste/validação |
 | **FAISS IndexFlatL2** | Busca exata de vizinho mais próximo em tempo sub-linear |
 
 ---
@@ -60,7 +60,7 @@ Verificar a **autenticidade de logos** usando uma rede siamesa que aprende embed
 ```
 FlickrLogos-27 (~4,500 logo crops, 27 marcas)
   ↓
-Split por imagem (70% train · 15% val · 15% test)
+Split por imagem (70% train · 15% test · 15% validation)
   ↓
 Geração de pares (50% genuínos · 50% impostores)
   ↓ regenerados a cada epoch
@@ -74,7 +74,7 @@ Treino Siamês (Contrastive Loss)
   └─ Fase 2: fine-tuning, lr=1e-4 + CosineAnnealing
   ↓
 Avaliação
-  ├─ Threshold ótimo via F1 no val set
+  ├─ Threshold ótimo via F1 no test set
   ├─ AUC-ROC, Average Precision, F1
   └─ t-SNE para visualização de clusters
   ↓
