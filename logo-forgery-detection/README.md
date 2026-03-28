@@ -86,6 +86,8 @@ Inferência FAISS
 
 ## Resultados
 
+### Classificação (Validation Set)
+
 | Métrica | Valor |
 |---------|-------|
 | AUC-ROC | 0.9665 |
@@ -93,6 +95,25 @@ Inferência FAISS
 | F1-score | 0.9330 |
 | Accuracy | 0.9370 |
 | Threshold ótimo | 0.7010 |
+
+### Retrieval (FAISS — Recall@K)
+
+| Métrica | Valor |
+|---------|-------|
+| Recall@1 | 0.9469 |
+| Recall@5 | 0.9469 |
+| Recall@10 | 0.9469 |
+
+> Recall@1 = Recall@5 = Recall@10 indica que quando o modelo acerta, o match correto é sempre o **vizinho mais próximo** — alta confiança na busca.
+
+### Treino
+
+| Parâmetro | Valor |
+|-----------|-------|
+| Epochs | 30 (early stop epoch 23) |
+| Best test_loss | 0.1105 |
+| GPU | Tesla T4 (Kaggle) |
+| Tempo total | ~37 min |
 
 ---
 
