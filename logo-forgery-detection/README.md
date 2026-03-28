@@ -88,12 +88,11 @@ Inferência FAISS
 
 | Métrica | Valor |
 |---------|-------|
-| AUC-ROC | — |
-| Average Precision | — |
-| F1-score | — |
-| Accuracy | — |
-
-*Resultados serão preenchidos após treino completo.*
+| AUC-ROC | 0.9665 |
+| Average Precision | 0.9770 |
+| F1-score | 0.9330 |
+| Accuracy | 0.9370 |
+| Threshold ótimo | 0.7010 |
 
 ---
 
