@@ -17,6 +17,10 @@ Foco em demonstrar o pipeline completo: analise exploratoria, pre-processamento,
 
 ## Resultados
 
+### Analise Exploratoria e Visualizacao
+
+Analise completa dos dados com 6 tipos de visualizacao: matriz de correlacao, PairPlot (dispersao entre todos os pares de atributos), Violin Plot (distribuicao por especie), Radviz (projecao radial multivariada), KDE (estimativa de densidade) e BoxPlot. As visualizacoes revelam que Setosa e linearmente separavel, enquanto Versicolor e Virginica apresentam sobreposicao parcial nos atributos de sepala — justificando o uso de modelos nao-lineares como SVM.
+
 ### Comparacao de Modelos (10-Fold Cross-Validation)
 
 | Modelo | Acuracia Media | Desvio Padrao |
