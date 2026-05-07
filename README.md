@@ -3,49 +3,61 @@
 ![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c?logo=pytorch&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.0+-f7931e?logo=scikit-learn&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=next.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=next.js&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)
 
-> Machine Learning, Deep Learning, NLP e Produtos de IA aplicados a problemas reais.
+> Projetos de Machine Learning, Deep Learning, NLP e Produtos de IA aplicados a problemas reais.
+
+**Formacao:** Mestre em Engenharia Eletrica (Inteligencia Computacional e Machine Learning) | Graduado em Fisica
 
 ---
 
 ## Produtos de IA
 
-| Projeto | Descrição | Stack |
-|---------|-----------|-------|
-| **FM IA Solutions** | Plataforma de produtos de IA para profissionais e empresas. Chatbot inteligente com LLM, TTS, autenticação, painel admin e LGPD compliant. | Next.js 16, React 19, TypeScript, Groq/Llama 3.3 70B, Google Cloud TTS, Supabase |
-| **Atendente IA WhatsApp** | Chatbot de atendimento 24/7 com agendamento automático via Google Calendar. | Node.js, Google Gemini, WhatsApp Business API, Docker, PostgreSQL |
-| **Financeiro IA WhatsApp** | Gestão financeira pessoal via WhatsApp com relatórios e lembretes automáticos. | Node.js, Google Gemini, WhatsApp Business API, Docker, SQLite |
+| Projeto | O que faz | Resultado |
+|---------|-----------|-----------|
+| [FM IA Solutions](fm-ia-solutions/) | Plataforma comercial de IA com chatbot, TTS e painel administrativo | 6 produtos, 924+ prompts, LGPD compliant |
+| [Atendente IA Telegram](atendente-ia-telegram/) | Chatbot de atendimento 24/7 com agendamento automatico | Integracao Google Calendar, qualificacao de leads |
+| [Financeiro IA Telegram](financeiro-ia-telegram/) | Controle de gastos pessoais via conversa natural no Telegram | 16 categorias automaticas, relatorio mensal analitico |
 
 ---
 
-## Machine Learning & Data Science
+## Machine Learning e Data Science
 
-| Projeto | Área | Destaques |
-|---------|------|-----------|
-| [Market Forecast](market-forecast/) | Classificação / Finanças | XGBoost, Walk-Forward Validation, FastAPI — 59% acc, +547% retorno |
-| [Logo Forgery Detection](logo-forgery-detection/) | Computer Vision | Siamese Networks, EfficientNetV2-S, FAISS — AUC-ROC 0.97 |
-| [NLP Sentiment](nlp-sentiment/) | NLP / Finanças | TF-IDF → Word2Vec → BERT → FinBERT — 4 abordagens comparadas |
-| [Fraud Detection](fraud-detection/) | Classificação / Finanças | Dataset 6.3M transações, ensemble |
-| [Iris Classifier](iris-classifier/) | Classificação Clássica | Múltiplos algoritmos, Cross-Validation |
+| Projeto | Area | Resultado Principal |
+|---------|------|---------------------|
+| [Market Forecast](market-forecast/) | Series Temporais / Financas | 59% de acerto direcional, retorno acumulado de +547% em backtest |
+| [Logo Forgery Detection](logo-forgery-detection/) | Visao Computacional | AUC-ROC 0.97, Recall@1 de 0.95 na busca por similaridade |
+| [NLP Sentiment](nlp-sentiment/) | Processamento de Linguagem Natural | 4 abordagens comparadas: TF-IDF, Word2Vec, BERT, FinBERT |
+| [Fraud Detection](fraud-detection/) | Classificacao Binaria / Financas | Acuracia >99.5% com PR-AUC >0.98 em 6.3M de transacoes |
+| [Iris Classifier](iris-classifier/) | Classificacao Multiclasse | 7 algoritmos comparados, 100% no conjunto de validacao |
 
 ---
 
-## Habilidades demonstradas
+## Competencias Tecnicas
 
 | Categoria | Tecnologias |
 |-----------|-------------|
-| **ML/DL** | PyTorch, scikit-learn, XGBoost, Hugging Face, FAISS, Walk-Forward Validation |
-| **NLP** | TF-IDF, Word2Vec, BERT, FinBERT, análise de sentimento financeiro |
-| **Computer Vision** | Siamese Networks, EfficientNetV2-S, metric learning, contrastive loss |
-| **IA Generativa** | Llama 3.3 70B (Groq), Google Gemini, Google Cloud TTS, streaming SSE |
-| **Full-Stack** | Next.js, React, TypeScript, Node.js, Tailwind CSS, Supabase, Docker |
-| **Segurança & Compliance** | LGPD, rate limiting, sanitização de input, CSP, auditoria OWASP |
-| **Infra & Deploy** | Docker, Railway, Vercel, Google Cloud, GitHub Actions CI/CD |
+| **ML e Deep Learning** | PyTorch, scikit-learn, XGBoost, Hugging Face, FAISS |
+| **NLP** | TF-IDF, Word2Vec, BERT, FinBERT, analise de sentimento |
+| **Visao Computacional** | Redes Siamesas, EfficientNetV2, metric learning, contrastive loss |
+| **IA Generativa** | Llama 3.3 70B (Groq), Google Gemini, TTS, streaming SSE |
+| **Validacao** | Walk-Forward, Stratified K-Fold, PR-AUC, Welch t-test |
+| **Full-Stack** | Next.js, React, TypeScript, Node.js, Tailwind, Supabase, Docker |
+| **Seguranca** | LGPD, rate limiting, sanitizacao de input, CSP, OWASP |
+| **Infraestrutura** | Docker, Railway, Vercel, Google Cloud, GitHub Actions |
 
 ---
 
 ## Autor
 
 **Fernando Marciano** — [LinkedIn](https://www.linkedin.com/in/fernandopmarciano/) · contato@fmiasolutions.com.br
+
+---
+
+## Licenca
+
+Todos os projetos estao sob licenca **All Rights Reserved**, salvo indicacao contraria.
+
+> Interessado no codigo-fonte ou em uma demonstracao? Entre em contato pelo [LinkedIn](https://www.linkedin.com/in/fernandopmarciano/).
