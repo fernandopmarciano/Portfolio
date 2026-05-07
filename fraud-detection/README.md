@@ -23,12 +23,12 @@ Sistema de deteccao de fraudes construido sobre o dataset **PaySim** (6.3 milhoe
 
 ### Comparacao de Modelos (10-Fold Stratified Cross-Validation)
 
-| Modelo | Acuracia | PR-AUC | Recall | Precision |
-|--------|----------|--------|--------|-----------|
-| Logistic Regression | Referencia | Referencia | Referencia | Referencia |
-| Decision Tree | >99% | Alto | Alto | Alto |
-| Random Forest | >99% | Alto | Alto | Alto |
-| **Gradient Boosting** | **>99.5%** | **>0.98** | **Alto** | **Alto** |
+| Modelo | PR-AUC | Recall | Precision |
+|--------|--------|--------|-----------|
+| Logistic Regression | Referencia | Referencia | Referencia |
+| Decision Tree | Alto | Alto | Alto |
+| Random Forest | Alto | Alto | Alto |
+| **Gradient Boosting** | **>0.98** | **Alto** | **Alto** |
 
 ### Metricas de Destaque
 
