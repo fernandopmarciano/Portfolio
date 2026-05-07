@@ -51,7 +51,7 @@
 
 ## Autor
 
-**Fernando Marciano** — [LinkedIn](https://www.linkedin.com/in/fernandopmarciano/) · contato@fmiasolutions.com.br
+**Fernando Marciano** — [LinkedIn](https://www.linkedin.com/in/fernandopmarciano/) · fe.pmarciano@gmail.com
 
 ---
 
