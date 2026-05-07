@@ -18,8 +18,7 @@
 | Projeto | O que faz | Resultado |
 |---------|-----------|-----------|
 | [FM IA Solutions](fm-ia-solutions/) | Plataforma comercial de IA com chatbot, TTS e painel administrativo | 6 produtos, 924+ prompts, LGPD compliant |
-| [Atendente IA Telegram](atendente-ia-telegram/) | Chatbot de atendimento 24/7 com agendamento automatico | Integracao Google Calendar, qualificacao de leads |
-| [Financeiro IA Telegram](financeiro-ia-telegram/) | Controle de gastos pessoais via conversa natural no Telegram | 16 categorias automaticas, relatorio mensal analitico |
+| [Hermes Telegram Bot](hermes-telegram-bot/) | Assistente pessoal no Telegram com controle financeiro, agenda e automacoes | 12 skills, 8 cron jobs, 124 testes E2E, operando 24/7 |
 
 ---
 
