@@ -25,6 +25,7 @@ Diferente de chatbots convencionais, o Hermes combina respostas de IA com script
 - 8 categorias automaticas com suporte a acentos (alimentacao, transporte, moradia, saude, lazer, educacao, vestuario, servicos)
 - Categoria explicita apos virgula: "pokehome 10,90, lazer"
 - Orcamento mensal com alerta de limite (R$3.000)
+- Dados persistidos em SQLite, consultados e manipulados por scripts Python dedicados (expenses_db.py)
 - Relatorio mensal automatico com totais por categoria
 - Consultas interativas: "quanto gastei esse mes?", "relatorio"
 
@@ -112,7 +113,7 @@ Isso garante que gastos sao registrados mesmo quando o Gemini retorna erro 503 o
 
 | Camada | Tecnologias |
 |--------|-------------|
-| Agente | Hermes v0.11.0 (Python 3.11) |
+| Agente | Hermes v0.12.0 (Python 3.11) |
 | Modelo principal | Gemini 2.5 Flash (Google AI Studio) |
 | Fallback | Groq LLaMA 3.3 70B |
 | Mensageria | Telegram Bot API |
