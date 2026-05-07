@@ -26,7 +26,7 @@
 
 | Projeto | Area | Resultado Principal |
 |---------|------|---------------------|
-| [Market Forecast](market-forecast/) | Series Temporais / Financas | 59% de acerto direcional, retorno acumulado de +547% em backtest |
+| [Market Forecast](market-forecast/) | Series Temporais / Financas | Directional Accuracy 59%, retorno simulado de +547% (backtest 2017-2024) |
 | [Logo Forgery Detection](logo-forgery-detection/) | Visao Computacional | AUC-ROC 0.97, Recall@1 de 0.95 na busca por similaridade |
 | [NLP Sentiment](nlp-sentiment/) | Processamento de Linguagem Natural | 4 abordagens comparadas: TF-IDF, Word2Vec, BERT, FinBERT |
 | [Fraud Detection](fraud-detection/) | Classificacao Binaria / Financas | Acuracia >99.5% com PR-AUC >0.98 em 6.3M de transacoes |

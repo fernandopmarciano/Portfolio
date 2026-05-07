@@ -17,7 +17,7 @@ Cobre o pipeline completo: coleta de dados de multiplas fontes, engenharia de 20
 
 ## Resultados (IBOVESPA, 2017-2024)
 
-| Modelo | Acuracia | Retorno Acumulado | Indice de Sharpe |
+| Modelo | Directional Accuracy | Retorno Acumulado | Indice de Sharpe |
 |--------|----------|-------------------|------------------|
 | SARIMA (referencia) | ~50% | -- | -- |
 | RNN / GRU | ~51% | -- | -- |
