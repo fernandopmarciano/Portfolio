@@ -1,10 +1,10 @@
 # Market Forecast
 
-> Previsao de direcao de preco (alta/baixa) em indices financeiros usando Machine Learning com validacao temporal realista.
+> Previsao de direcao de preco (alta/baixa) em indices financeiros usando ensemble de Gradient Boosting com Walk-Forward Validation.
 
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
 [![Version](https://img.shields.io/badge/version-3.2.0-informational)](#)
-[![Tests](https://img.shields.io/badge/tests-267%20passing-brightgreen)](#)
+[![Tests](https://img.shields.io/badge/tests-274%20passing-brightgreen)](#)
 [![License: All Rights Reserved](https://img.shields.io/badge/License-All%20Rights%20Reserved-red)](#licenca)
 
 ---
@@ -13,30 +13,52 @@
 
 Sistema de classificacao binaria que preve se o preco de fechamento de indices financeiros vai subir ou descer em relacao a abertura do mesmo dia.
 
-Cobre o pipeline completo: coleta de dados de multiplas fontes, engenharia de 20 atributos (tecnicos, macroeconomicos e de sentimento), treinamento com validacao temporal e backtest com custos operacionais reais.
+Pipeline completo: coleta de dados de multiplas fontes, engenharia de 20 atributos (tecnicos, macroeconomicos e de sentimento), treinamento com validacao temporal, ensemble de 3 modelos gradient boosting e backtest com custos operacionais reais.
 
 ---
 
 ## Resultados (IBOVESPA, 2017-2024)
 
-| Modelo | Directional Accuracy | Retorno Acumulado | Indice de Sharpe |
-|--------|----------|-------------------|------------------|
-| SARIMA (referencia) | ~50% | -- | -- |
-| RNN / GRU | ~51% | -- | -- |
-| LSTM Classificador | 48.6% | -21.9% | -1.62 |
-| **XGBoost (WFV)** | **57.6%** | **+354%** | **1.56** |
-| XGBoost + Macro (VIX+DXY) | 57.5% | +364% | 1.59 |
-| **XGBoost + Optuna** | **59.0%** | **+547%** | **1.80** |
-| Limiar >= 65% | -- | +485% | 3.23 |
-| **Limiar >= 70%** | -- | +330% | **3.89** |
+### Blocked Time-Series CV (5 blocos temporais)
+
+| Modelo | Acc BlockedCV | Sharpe BlockedCV | Retorno |
+|--------|---------------|------------------|---------|
+| XGBoost Base (WFV) | 57.0% +/- 2.2% | 1.318 +/- 0.321 | +375.9% |
+| XGBoost + Macro (VIX+DXY) | 57.5% +/- 2.6% | 1.306 +/- 0.257 | +364.0% |
+| XGBoost + Optuna HPO | 59.4% +/- 0.6% | 1.640 +/- 0.440 | +633.2% |
+| LightGBM + Optuna | 59.8% +/- 1.9% | 1.865 +/- 0.493 | +787.7% |
+| CatBoost + Optuna | 59.5% +/- 1.2% | 1.869 +/- 0.390 | +897.5% |
+| **Stacking Ensemble** | **60.2% +/- 1.4%** | **2.315 +/- 0.408** | **+1367.9%** |
+| LSTM Classificador | 52.8% +/- 2.3% | -0.506 +/- 1.520 | -9.1% |
 
 **Nota:** Resultados de backtest educacional com Walk-Forward Validation. Nao constitui recomendacao de investimento.
 
+### Threshold Analysis (XGBoost Optuna)
+
+| Limiar | Operacoes | Acc | Retorno | Sharpe | Max Drawdown |
+|--------|-----------|-----|---------|--------|--------------|
+| >= 50% | 1,185 (61%) | 59.2% | +633.2% | 1.906 | -23.4% |
+| >= 55% | 879 (46%) | 62.7% | +1227.7% | 3.322 | -18.6% |
+| >= 60% | 612 (32%) | 63.6% | +924.5% | 4.327 | -17.2% |
+| >= 65% | 305 (16%) | 62.6% | +309.6% | 4.626 | -8.3% |
+| >= 70% | 79 (4%) | 68.4% | +46.1% | 5.886 | -3.4% |
+
+### Baselines de Regressao
+
+| Modelo | Metrica | Valor |
+|--------|---------|-------|
+| ARIMA | RMSE | 21,261 |
+| Prophet | RMSE | 17,617 |
+| RNN | MAE / R2 | 3,858 / 0.614 |
+| LSTM (regressao) | MAE / R2 | 6,557 / 0.060 |
+| GRU | MAE / R2 | 8,591 / -0.417 |
+
 ### Interpretacao dos Resultados
 
-- Em mercados financeiros, acertos acima de 55% ja sao relevantes. O modelo alcanca 59% com otimizacao bayesiana.
-- O Indice de Sharpe de 3.89 (com filtro de confianca >= 70%) indica retorno ajustado ao risco muito acima do usual. Isso ocorre porque o modelo opera menos, mas com maior precisao.
-- Modelos de series temporais classicos (ARIMA) e redes recorrentes (LSTM, GRU) nao superaram o acaso neste cenario, indicando que a engenharia de atributos foi mais determinante que a arquitetura do modelo.
+- Em mercados financeiros, acertos acima de 55% ja sao relevantes. O ensemble alcanca 60.2% com blocked CV estavel (+/- 1.4%).
+- O Sharpe de 2.31 do Stacking indica retorno ajustado ao risco consistente. Com threshold >= 60%, o Sharpe salta para 4.33.
+- Gradient boosting (XGBoost, LightGBM, CatBoost) domina LSTM em features tabulares — a engenharia de atributos foi mais determinante que a arquitetura do modelo.
+- **Validacao estatistica:** Permutation test p=0.0005 confirma que os resultados sao significativos.
 
 ### Comparacao Multi-Index (XGBoost + Macro)
 
@@ -77,21 +99,22 @@ Feature Engineering (20 features)
     |-- Sentimento: CNN Fear & Greed Index
     |
     v
-Modelos
+Modelos (com persistencia em disco)
     |-- XGBoost + Walk-Forward Validation (principal)
-    |-- LightGBM / CatBoost (gradient boosting alternativo)
+    |-- LightGBM + Optuna HPO
+    |-- CatBoost + Optuna HPO
+    |-- Stacking Ensemble (meta-learner sobre os 3 acima)
     |-- ARIMA / SARIMA (baseline estatistico)
     |-- Prophet (Meta)
     |-- Deep Learning: RNN, LSTM, GRU
-    |-- Stacking Ensemble (meta-learner)
     |
     v
 Avaliacao & Backtest
     |-- Simulacao day trading com custos (0.10%/operacao)
     |-- Threshold Analysis (filtragem por confianca)
     |-- Blocked Time-Series CV (mean +/- std por blocos temporais)
+    |-- Bootstrap CI + Permutation Test
     |-- SHAP Feature Importance
-    |-- Metricas: Acuracia, Sharpe, Max Drawdown, Win Rate
 ```
 
 ---
@@ -108,19 +131,21 @@ Diferente de uma divisao fixa treino/teste, a Walk-Forward Validation simula o u
 
 ### Otimizacao de Hiperparametros
 
-- **Optuna** com poda automatica (MedianPruner)
-- Busca bayesiana sobre 8 hiperparametros do XGBoost
-- Validacao cruzada temporal (TimeSeriesSplit)
+- **Optuna** com busca bayesiana (TPE sampler)
+- 5-fold TimeSeriesSplit para XGBoost, LightGBM e CatBoost
+- Cada modelo otimizado independentemente (20-30 trials)
 
-### Analise de Limiar de Confianca
+### Stacking Ensemble
 
-O modelo filtra operacoes por nivel de confianca: com limiar >= 70%, o Indice de Sharpe salta de 1.80 para 3.89, trocando volume por precisao.
+- Meta-learner (LogisticRegression) sobre probabilidades calibradas
+- Combina XGBoost Optuna + LightGBM + CatBoost
+- Melhor resultado geral: 60.2% acc, Sharpe 2.31
 
 ### Validacao Estatistica
 
-- Permutation test: p=0.001 para XGBoost Optuna (resultado estatisticamente significativo)
-- Blocked time-series CV para metricas com mean +/- std sem quebrar ordem temporal
-- Bootstrap confidence intervals
+- **Blocked Time-Series CV:** 5 blocos cronologicos, metricas com mean +/- std
+- **Permutation test:** p=0.0005 (XGBoost Optuna) — estatisticamente significativo
+- **Bootstrap CI:** intervalos de confianca a 95%
 
 ---
 
@@ -142,11 +167,11 @@ O modelo filtra operacoes por nivel de confianca: com limiar >= 70%, o Indice de
 |-----------|-------------|
 | ML / Modelos | XGBoost, LightGBM, CatBoost, Optuna, scikit-learn |
 | Deep Learning | TensorFlow / Keras (RNN, LSTM, GRU) |
-| Ensemble | Stacking meta-learner (LogisticRegression/XGBoost) |
+| Ensemble | Stacking meta-learner (LogisticRegression) |
 | Series Temporais | statsmodels (ARIMA), Prophet |
 | Interpretabilidade | SHAP (feature importance + selection) |
 | Dados | yfinance, pandas-datareader, pandas, NumPy |
-| Qualidade | pytest (267 testes), black, isort, flake8, GitHub Actions |
+| Qualidade | pytest (274 testes), black, isort, flake8, GitHub Actions |
 
 ---
 
@@ -155,33 +180,34 @@ O modelo filtra operacoes por nivel de confianca: com limiar >= 70%, o Indice de
 ```
 Market_Forecast/
 ├── notebooks/
-│   ├── 01-eda.ipynb        # Analise exploratoria e visualizacao
-│   ├── 02-models.ipynb     # Treinamento de todos os modelos
-│   └── 03-backtest.ipynb   # Backtest, multi-index, validacao OOT
+│   ├── 01-eda.ipynb              # Analise exploratoria e visualizacao
+│   ├── 02-train-xgboost.ipynb    # XGBoost Base + Macro + Optuna HPO
+│   ├── 03-train-boosting.ipynb   # LightGBM, CatBoost, Stacking Ensemble
+│   ├── 04-train-deep.ipynb       # ARIMA, Prophet, RNN/LSTM/GRU, LSTM Clf
+│   ├── 05-analysis.ipynb         # Backtest, blocked CV, bootstrap, threshold
+│   └── legacy/                   # Notebooks historicos
 ├── src/
-│   ├── config.py           # Constantes centralizadas
-│   ├── data/               # Loader com 5 fontes de fallback
-│   ├── features/           # Feature engineering (20 features)
-│   ├── models/             # XGBoost, LightGBM, CatBoost, LSTM, Ensemble
-│   ├── evaluation/         # Backtest, threshold analysis, metricas
-│   └── utils/              # Helpers, statistics (blocked CV, bootstrap CI)
-├── tests/                  # 267 testes unitarios + integracao (pytest)
-├── experiments/            # Configs YAML por experimento
-├── scripts/                # Scripts auxiliares
-├── .github/workflows/      # CI/CD (testes + lint)
-├── pyproject.toml          # Configuracao do projeto
-├── Makefile                # Comandos padronizados
-└── Dockerfile              # Container para reproducibilidade
+│   ├── config.py                 # Constantes centralizadas
+│   ├── data/                     # Loader com 5 fontes de fallback
+│   ├── features/                 # Feature engineering (20 features)
+│   ├── models/                   # XGBoost, LightGBM, CatBoost, LSTM, persistence
+│   ├── evaluation/               # Backtest, threshold analysis
+│   └── utils/                    # Helpers, statistics (blocked CV, bootstrap)
+├── models/saved/                 # Modelos treinados + resultados persistidos
+├── tests/                        # 274 testes unitarios + integracao
+├── .github/workflows/            # CI/CD (testes + lint)
+├── pyproject.toml                # Configuracao do projeto
+└── LICENSE
 ```
 
 ---
 
 ## Contexto Academico
 
-- Acuracia direcional de 55-59% com WFV e resultado genuinamente bom na literatura (Lo & MacKinlay, 1999; Gu et al., 2020)
+- Acuracia direcional de 55-60% com WFV e resultado genuinamente bom na literatura (Lo & MacKinlay, 1999; Gu et al., 2020)
 - XGBoost/LightGBM dominam LSTM em features tabulares para previsao financeira
 - 97% dos day traders perdem dinheiro a longo prazo (Barber & Odean, 2000)
-- O modelo supera consistentemente o Buy & Hold no IBOVESPA com Sharpe > 1.5
+- O ensemble supera consistentemente o Buy & Hold no IBOVESPA com Sharpe > 2.0
 
 ---
 
