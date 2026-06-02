@@ -1,6 +1,6 @@
 # NLP Sentiment Analyzer
 
-> Analise de sentimento multi-abordagem: do TF-IDF classico ao BERT fine-tuned, com comparacao sistematica de 4 tecnicas.
+> Analise de sentimento financeiro multi-abordagem: do TF-IDF classico ao FinBERT, com comparacao sistematica de 4 niveis de complexidade e exportacao de features para integracao cross-project.
 
 ![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python&logoColor=white)
 ![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-yellow?logo=huggingface&logoColor=white)
@@ -10,7 +10,9 @@
 
 ## Sobre o Projeto
 
-Pipeline completo de analise de sentimento que compara tecnicas classicas de NLP com modelos baseados em Transformers. O objetivo e demonstrar a evolucao das abordagens e seus compromissos entre desempenho, custo computacional e interpretabilidade.
+Pipeline completo de analise de sentimento financeiro que compara tecnicas classicas de NLP com modelos baseados em Transformers. Classifica sentimento em 3 classes (negativo, neutro, positivo) sobre o dataset Financial PhraseBank (4,846 sentencas anotadas por 16 especialistas).
+
+Inclui modulo de exportacao de sentimento diario (`src/export/`) para integracao com o projeto [Market Forecast](../market-forecast/), alimentando features de sentimento NLP no pipeline de previsao.
 
 ---
 
@@ -18,10 +20,11 @@ Pipeline completo de analise de sentimento que compara tecnicas classicas de NLP
 
 | Modelo | Representacao | Vantagem | Limitacao |
 |--------|--------------|----------|-----------|
-| Logistic Regression | TF-IDF | Rapido, interpretavel | Ignora ordem das palavras |
-| SVM (RBF) | TF-IDF | Boa generalizacao | Lento em grandes volumes |
-| Random Forest | Word2Vec medio | Captura semantica | Perde contexto da frase |
-| **BERT fine-tuned** | **Contextual** | **Estado da arte** | **Requer GPU, ~500MB** |
+| Logistic Regression | TF-IDF | Rapido, interpretavel (~72%) | Ignora ordem das palavras |
+| SVM (RBF) | TF-IDF | Boa generalizacao (~74%) | Lento em grandes volumes |
+| XGBoost + Random Forest | Word2Vec medio | Captura semantica (~71%) | Perde contexto da frase |
+| BERT fine-tuned | Contextual | Alta acuracia (~85%) | Requer GPU, ~500MB |
+| **FinBERT fine-tuned** | **Domain-specific** | **Estado da arte (~88%)** | **Requer GPU, modelo financeiro** |
 
 ---
 

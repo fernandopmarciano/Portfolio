@@ -93,14 +93,31 @@ Validacao Final no conjunto reservado
 
 ---
 
+## Analises Avancadas
+
+### Quadrant Analysis (Concordancia entre Modelos)
+
+Analise de concordancia/discordancia entre os 4 modelos usando predicoes out-of-fold. Classifica cada transacao em quadrantes (TP_agree, TN_agree, FP_agree, FN_agree, disagree) e visualiza em projecao UMAP 2D.
+
+### Queue Emulation (Simulacao Operacional)
+
+Simula uma fila de analise de fraudes com capacidade limitada, avaliando o impacto de diferentes thresholds de probabilidade no volume de alertas, taxa de deteccao e custo operacional.
+
+### PR-AUC Splits Analysis
+
+Avalia a sensibilidade da PR-AUC em relacao a proporcao treino/teste (50-90%), identificando o tamanho minimo viavel de treino e padroes de overfitting.
+
+---
+
 ## Tecnologias
 
 | Categoria | Tecnologias |
 |-----------|-------------|
-| ML | scikit-learn (LR, DT, RF, GBM, SVM, MLP) |
+| ML | scikit-learn (LR, DT, RF, GBM), XGBoost, LightGBM |
 | Dados | pandas, NumPy |
-| Visualizacao | Matplotlib, Seaborn |
+| Visualizacao | Matplotlib, Seaborn, UMAP |
 | Validacao | StratifiedKFold, PR-AUC, ROC-AUC, Confusion Matrix |
+| Qualidade | pytest (47 testes), black, isort, flake8, GitHub Actions |
 
 ---
 
