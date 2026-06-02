@@ -26,10 +26,10 @@
 
 | Projeto | Area | Resultado Principal |
 |---------|------|---------------------|
-| [Market Forecast](market-forecast/) | Series Temporais / Financas | Directional Accuracy 59%, retorno simulado de +547% (backtest 2017-2024) |
+| [Market Forecast](market-forecast/) | Series Temporais / Financas | Directional Accuracy 60.2%, Sharpe 2.31, retorno simulado de +1368% (backtest 2017-2024) |
 | [Logo Forgery Detection](logo-forgery-detection/) | Visao Computacional | AUC-ROC 0.97, Recall@1 de 0.95 na busca por similaridade |
-| [NLP Sentiment](nlp-sentiment/) | Processamento de Linguagem Natural | 4 abordagens comparadas: TF-IDF, Word2Vec, BERT, FinBERT |
-| [Fraud Detection](fraud-detection/) | Classificacao Binaria / Financas | PR-AUC >0.98 em 6.3M de transacoes com 0.13% de fraude |
+| [NLP Sentiment](nlp-sentiment/) | Processamento de Linguagem Natural | 4 abordagens comparadas: TF-IDF, Word2Vec, BERT, FinBERT + exportacao de sentimento cross-project |
+| [Fraud Detection](fraud-detection/) | Classificacao Binaria / Financas | PR-AUC >0.98 em 6.3M de transacoes + analise de quadrantes e emulacao de fila |
 | [Iris Classifier](iris-classifier/) | Classificacao Multiclasse | Analise exploratoria completa, 7 algoritmos comparados, 100% na validacao |
 
 ---

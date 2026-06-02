@@ -4,7 +4,7 @@
 
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
 [![Version](https://img.shields.io/badge/version-3.2.0-informational)](#)
-[![Tests](https://img.shields.io/badge/tests-274%20passing-brightgreen)](#)
+[![Tests](https://img.shields.io/badge/tests-283%20passing-brightgreen)](#)
 [![License: All Rights Reserved](https://img.shields.io/badge/License-All%20Rights%20Reserved-red)](#licenca)
 
 ---
@@ -93,10 +93,11 @@ Dados (yfinance, Stooq, CNN Fear & Greed)
 Loader (5 fontes de fallback + cache CSV)
     |
     v
-Feature Engineering (20 features)
+Feature Engineering (24 features)
     |-- Tecnicas: RSI, MACD, Bollinger Bands, MAs, Momentum, Gap
     |-- Macro: VIX, Dollar Index (DXY)
     |-- Sentimento: CNN Fear & Greed Index
+    |-- NLP Sentiment: score, volume, dispersao, momentum (via NLP_Sentiment)
     |
     v
 Modelos (com persistencia em disco)
@@ -157,6 +158,8 @@ Diferente de uma divisao fixa treino/teste, a Walk-Forward Validation simula o u
 
 **Sentimento (3):** CNN Fear & Greed (score, zona categorica, momentum 5 dias).
 
+**NLP Sentiment (4):** Score de sentimento textual, volume de noticias, dispersao, momentum 5 dias — integrado do projeto [NLP Sentiment](../nlp-sentiment/).
+
 > SHAP feature selection validou 14/14 features tecnicas como relevantes.
 
 ---
@@ -171,7 +174,7 @@ Diferente de uma divisao fixa treino/teste, a Walk-Forward Validation simula o u
 | Series Temporais | statsmodels (ARIMA), Prophet |
 | Interpretabilidade | SHAP (feature importance + selection) |
 | Dados | yfinance, pandas-datareader, pandas, NumPy |
-| Qualidade | pytest (274 testes), black, isort, flake8, GitHub Actions |
+| Qualidade | pytest (283 testes), black, isort, flake8, GitHub Actions |
 
 ---
 
