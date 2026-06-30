@@ -17,6 +17,7 @@
 
 | Projeto | O que faz | Resultado |
 |---------|-----------|-----------|
+| [AVTP — Assistente Totalmente Privado](avtp/) | Assistente de IA 100% local (LLM, RAG, voz, 30+ ferramentas) rodando no proprio hardware | TTFT ~32-140ms, ~37 tok/s na RX 6600, speculative decoding +40.9%, ~975 testes (507 adversariais), custo R$ 0/mes |
 | [FM IA Solutions](fm-ia-solutions/) | Plataforma comercial de IA com chatbot, TTS e painel administrativo | 6 produtos, 924+ prompts estruturados para profissionais de diversas areas de atuacao, LGPD compliant |
 | [Hermes Telegram Bot](hermes-telegram-bot/) | Assistente pessoal no Telegram com controle financeiro, agenda e automacoes | 12 skills, 8 cron jobs, 124 testes E2E, operando 24/7 |
 
