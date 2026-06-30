@@ -21,19 +21,21 @@ Sistema de deteccao de fraudes construido sobre o dataset **PaySim** (6.3 milhoe
 
 ## Resultados
 
-### Comparacao de Modelos (10-Fold Stratified Cross-Validation)
+### Comparacao de Modelos (conjunto de teste, ordenado por PR-AUC)
 
-| Modelo | PR-AUC | Recall | Precision |
-|--------|--------|--------|-----------|
-| Logistic Regression | Referencia | Referencia | Referencia |
-| Decision Tree | Alto | Alto | Alto |
-| Random Forest | Alto | Alto | Alto |
-| **Gradient Boosting** | **>0.98** | **Alto** | **Alto** |
+| Modelo | PR-AUC | ROC-AUC | F1 | Accuracy |
+|--------|:------:|:-------:|:--:|:--------:|
+| **Random Forest** | **0.9987** | 0.9998 | 0.9800 | 0.9999 |
+| XGBoost | 0.9985 | 0.9991 | 0.9882 | 1.0000 |
+| LightGBM | 0.9982 | 0.9993 | 0.9942 | 1.0000 |
+| Logistic Regression | 0.5551 | 0.9875 | 0.0782 | 0.9720 |
+
+**Validacao cruzada (5-fold, PR-AUC media +/- desvio):** Random Forest 0.9978 +/- 0.0009 - XGBoost 0.9972 +/- 0.0013 - LightGBM 0.9967 +/- 0.0013 - Logistic Regression 0.5487 +/- 0.0096.
 
 ### Metricas de Destaque
 
-- **PR-AUC > 0.98** — a metrica mais relevante em cenarios desbalanceados, pois mede a relacao entre precisao e cobertura sem ser inflada pela classe majoritaria
-- **Validacao cruzada estratificada com 10 folds** e barras de erro para significancia estatistica
+- A **Logistic Regression** ilustra o ponto central: 97,2% de accuracy mas F1 de apenas 0,078 e PR-AUC 0,55 — em base com 0,13% de fraude, accuracy engana e so a PR-AUC revela a qualidade real.
+- **Validacao cruzada estratificada (5-fold)** com media +/- desvio para significancia estatistica
 - **Conjunto de validacao independente** (100 amostras reservadas antes do treino)
 
 ### Por que PR-AUC e nao Acuracia?
