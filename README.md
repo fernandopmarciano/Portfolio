@@ -31,7 +31,7 @@
 | [Logo Forgery Detection](logo-forgery-detection/) | Visao Computacional | AUC-ROC 0.97, Recall@1 de 0.95 na busca por similaridade |
 | [NLP Sentiment](nlp-sentiment/) | Processamento de Linguagem Natural | 4 abordagens comparadas: TF-IDF, Word2Vec, BERT, FinBERT + exportacao de sentimento cross-project |
 | [Fraud Detection](fraud-detection/) | Classificacao Binaria / Financas | PR-AUC >0.98 em 6.3M de transacoes + analise de quadrantes e emulacao de fila |
-| [Rocket Landing RL](rocket-landing-rl/) | Aprendizado por Reforco / Neuroevolucao | Pouso autonomo rotate-and-thrust em fisica 6DOF: 75% de sucesso vindo de 140-160m, toque a ~1,6 graus |
+| [Rocket Landing RL](rocket-landing-rl/) | Aprendizado por Reforco / Neuroevolucao | Pouso autonomo rotate-and-thrust em fisica 6DOF: 100% na fase curta e 82% vindo de 140-160m sob criterios estritos, toque a 1,5 m/s |
 | [Iris Classifier](iris-classifier/) | Classificacao Multiclasse | Analise exploratoria completa, 7 algoritmos comparados, 100% na validacao |
 
 ---
