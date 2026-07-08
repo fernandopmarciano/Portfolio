@@ -3,8 +3,8 @@
 > Pouso autonomo de foguete em navio-drone (ASDS) com fisica 6DOF e neuroevolucao — o agente inclina o corpo para voar ate a barca e endireita para pousar, como um booster real.
 
 [![Python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/version-0.8.0-informational)](#)
-[![Tests](https://img.shields.io/badge/tests-412%20passing-brightgreen)](#)
+[![Version](https://img.shields.io/badge/version-0.9.0-informational)](#)
+[![Tests](https://img.shields.io/badge/tests-429%20passing-brightgreen)](#)
 [![License: All Rights Reserved](https://img.shields.io/badge/License-All%20Rights%20Reserved-red)](#licenca)
 
 ---
@@ -23,6 +23,10 @@ O diferencial da versao atual e o **controle realista rotate-and-thrust**: as ac
 
 > Aproximacao completa a partir de **~150 m de distancia**: cruzeiro inclinado na direcao da barca, flip de frenagem e pouso vertical.
 
+![Montagem: 10 pousos a partir de 10 condicoes diferentes](assets/generalist_montage.gif)
+
+> **O modelo generalista pousando de 10 condicoes de spawn diferentes**: vertical puro, solto parado perto e longe, FUGINDO da barca a 12 m/s, baixo e longe, alto e perto, passando reto por cima, mergulho a 18 m/s, fly-in classico e deriva lenta. Este modelo faz **100% de pouso (140/140) na suite fora-da-distribuicao**, com zero crashes em todas as avaliacoes — as 10 cenas do GIF pousaram na primeira tentativa de gravacao.
+
 ---
 
 ## Resultados
@@ -35,6 +39,7 @@ corpo e impactos rapidos sao crash. (Um booster real toca a < 2 m/s.)
 |---------------------------------|----------------------------------------------|
 | Fase 1 (25–45 m)   | **100%** |
 | Fase 6 (140–160 m) | **82%** — zero crashes (falhas restantes: paira sem bater) |
+| **Spawn aleatorio** (qualquer posicao/velocidade, modelo generalista) | **100%** (140/140) — zero crashes |
 
 Metricas de realismo comportamental (protocolo proprio, alem da taxa de pouso):
 
@@ -55,7 +60,7 @@ Metricas de realismo comportamental (protocolo proprio, alem da taxa de pouso):
 - **Validacao com seeds held-out + early stopping**: o melhor modelo por validacao vence o melhor por fitness de treino no protocolo real (confirmado em duas runs)
 - **Jogo interativo** (pygame): voo manual, corrida de 8 IAs, espectador navegando geracoes e replay acelerado do treinamento
 - **Treino headless paralelo** com snapshots por geracao e checkpoint completo da populacao
-- **412 testes** automatizados (fisica, env, reward, GA, modos de jogo em SDL headless)
+- **429 testes** automatizados (fisica, env, reward, GA, modos de jogo em SDL headless)
 
 ---
 
