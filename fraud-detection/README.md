@@ -1,5 +1,7 @@
 # Fraud Detection
 
+🇧🇷 **Português**  ·  🇬🇧 [English](README.en.md)
+
 > Deteccao de fraudes em transacoes financeiras com Machine Learning, validacao cruzada estratificada e analise em 6.3 milhoes de transacoes.
 
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
@@ -156,7 +158,7 @@ Avaliacao no TESTE hold-out (1,27M)   ->   PR-AUC 0,9987
 ## Destaques Tecnicos
 
 - **Desbalanceamento extremo** tratado com metricas adequadas (PR-AUC, nao acuracia)
-- **7 atributos construidos** a partir de padroes de saldo e tipo de transacao
+- **6 atributos construidos** a partir de padroes de saldo e tipo de transacao
 - **Otimizacao de memoria** com dtypes ajustados para processar 6.3M de linhas
 - **Divisao estratificada** que preserva a proporcao de fraude em treino/teste e em cada fold
 
@@ -208,7 +210,7 @@ aditividade do SHAP foi validada por teste (soma dos SHAP + base = probabilidade
 | Dados | pandas, NumPy |
 | Visualizacao | Matplotlib, Seaborn, UMAP |
 | Avaliacao | StratifiedKFold (CV), holdout temporal, PR-AUC, ROC-AUC, Confusion Matrix |
-| Qualidade | pytest (47 testes), black, isort, flake8, GitHub Actions |
+| Qualidade | pytest (58 testes), black, isort, flake8, GitHub Actions |
 
 ---
 
