@@ -164,17 +164,30 @@ Avaliacao no TESTE hold-out (1,27M)   ->   PR-AUC 0,9987
 
 ## Analises Avancadas
 
-### Quadrant Analysis (Concordancia entre Modelos)
+### Quadrant Analysis (concordancia entre modelos)
 
-Analise de concordancia/discordancia entre os 4 modelos usando predicoes out-of-fold. Classifica cada transacao em quadrantes (TP_agree, TN_agree, FP_agree, FN_agree, disagree) e visualiza em projecao UMAP 2D.
+Concordancia/discordancia entre os 4 modelos via predicoes out-of-fold (5-fold).
+**Resultado:** os 4 modelos concordam em **~86%** das transacoes; os **14% de discordancia
+concentram os casos dificeis** (mais fraude que a taxa base). A zona de desacordo e onde vale
+priorizar revisao humana.
 
-### Queue Emulation (Simulacao Operacional)
+### Queue Emulation (latencia e throughput)
 
-Simula uma fila de analise de fraudes com capacidade limitada, avaliando o impacto de diferentes thresholds de probabilidade no volume de alertas, taxa de deteccao e custo operacional.
+Mede a latencia de inferencia (p50/p95/p99) e o throughput por batch de cada modelo.
+**Resultado — trade-off latencia x acuracia:** o RandomForest e o mais preciso (PR-AUC 0,998)
+mas o **mais lento** (p50 ~29 ms, ~27k tx/s); **LightGBM/XGBoost sao ~100x mais rapidos**
+(1-2 ms, 460-627k tx/s) com PR-AUC ~0,997. Para producao de **alto volume**, um GBDT compensa
+a diferenca marginal de acuracia.
+
+![Throughput por modelo](assets/queue_throughput_bar.png)
 
 ### PR-AUC Splits Analysis
 
-Avalia a sensibilidade da PR-AUC em relacao a proporcao treino/teste (50-90%), identificando o tamanho minimo viavel de treino e padroes de overfitting.
+Sensibilidade da PR-AUC a proporcao treino/teste (50-90%, 3 repeticoes).
+**Resultado:** a PR-AUC do RandomForest fica **estavel em ~0,9999 de 50% a 90% de treino** —
+insensivel ao tamanho do split (reforca a eficiencia de dados da learning curve).
+
+![PR-AUC vs tamanho do treino](assets/splits_prauc.png)
 
 ---
 
