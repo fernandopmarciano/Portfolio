@@ -189,6 +189,15 @@ insensivel ao tamanho do split (reforca a eficiencia de dados da learning curve)
 
 ![PR-AUC vs tamanho do treino](assets/splits_prauc.png)
 
+### Explicabilidade (SHAP) — por que cada alerta?
+
+Cada predição é atribuída às features que a empurraram (auditabilidade — o analista precisa saber
+*por que* um alerta disparou). Ex.: uma transação que **esvaziou uma conta de R$1,15M** é marcada
+como fraude com f(x)=1,0, e o SHAP mostra exatamente quais sinais pesaram. A propriedade de
+aditividade do SHAP foi validada por teste (soma dos SHAP + base = probabilidade, erro ~1e-14).
+
+![Explicação individual (SHAP waterfall)](assets/shap_waterfall.png)
+
 ---
 
 ## Tecnologias
