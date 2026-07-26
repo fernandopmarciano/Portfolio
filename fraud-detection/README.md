@@ -95,6 +95,16 @@ Alem do split aleatorio, reservei o **ultimo periodo** do tempo como **validacao
   *mecanica* da fraude muda, nao so a taxa. Em producao, exigiria monitorar feature drift, nao so
   queda de performance.
 
+### Analise de custo — qual threshold usar?
+
+O melhor threshold nao e o de maior PR-AUC, e o de **menor custo esperado**: cada **falso negativo**
+custa o **valor real** da fraude que passou (o `amount`); cada **falso positivo** custa a revisao de
+um analista. Com custo de revisao de R$30, o ponto otimo fica em **recall 99,6% / precisao 100%** —
+os dois regimes de falha (threshold baixo = afogado em falsos positivos; alto = fraude cara passa)
+aparecem nas pontas da curva.
+
+![Curva de custo operacional](assets/cost_curve.png)
+
 ### Por que PR-AUC e nao Acuracia?
 
 Em datasets com 99.87% de transacoes legitimas, um modelo que classifica tudo como "nao-fraude" teria 99.87% de acuracia. A PR-AUC avalia especificamente a capacidade do modelo de encontrar fraudes reais (recall) sem gerar excesso de falsos alarmes (precision).
