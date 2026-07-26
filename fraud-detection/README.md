@@ -17,6 +17,19 @@ Sistema de deteccao de fraudes construido sobre o dataset **PaySim** (6.3 milhoe
 - **50 mil+ casos mensais** de fraude em pagamentos instantaneos
 - Sistemas baseados em regras nao acompanham o volume e a velocidade das transacoes
 
+### Como o projeto evoluiu
+
+1. **Baseline honesto** — comecei corrigindo os modelos de arvore para o desbalanceamento
+   extremo (`class_weight` / `scale_pos_weight`); sem isso, "99,87% de acuracia" escondia
+   deteccao praticamente zero.
+2. **Metrica certa** — adotei a **PR-AUC** como metrica primaria (accuracy e ate ROC-AUC
+   enganam com 0,13% de fraude).
+3. **Analises de robustez** — concordancia entre modelos (quadrant), fila operacional
+   (queue emulation) e sensibilidade da PR-AUC ao tamanho do split.
+4. **Escala** — rodei o pipeline no **dataset completo (6,3M)** para numeros reais, nao de amostra.
+5. **Eficiencia de dados** — a learning curve mostrou que o sinal e aprendivel com **~30 fraudes**;
+   os 6,3M sao redundantes.
+
 ---
 
 ## Resultados
@@ -67,6 +80,21 @@ O 10-fold confirma o 5-fold: **Random Forest 0,9962** e **XGBoost 0,9967**.
 > acima), e o XGBoost teve 3 folds com falha numerica local (media sobre os 7 validos, n=7).
 > RandomForest e LogisticRegression rodaram limpos nos dois ambientes.
 
+### Validacao temporal — o modelo generaliza para o futuro?
+
+Alem do split aleatorio, reservei o **ultimo periodo** do tempo como **validacao** — dados que
+**nunca** entraram no treino nem no teste. Treinando so no passado e avaliando no futuro:
+
+![Generalizacao temporal](assets/temporal_validation.png)
+
+- **A fraude e nao-estacionaria:** ~46% das fraudes estao no ultimo decil de tempo (treino 0,08%
+  vs validacao 0,33%). Ainda assim, **o sinal generaliza** — ROC-AUC ~1,0 no futuro.
+- **Cuidado metodologico:** PR-AUC **nao** e comparavel entre periodos com taxas base diferentes
+  (cresce com a taxa de fraude); usei **ROC-AUC** e **PR-AUC normalizado** para a comparacao justa.
+- **Feature drift:** `errorBalanceOrig` (uma top feature global) **perde poder no futuro** — a
+  *mecanica* da fraude muda, nao so a taxa. Em producao, exigiria monitorar feature drift, nao so
+  queda de performance.
+
 ### Por que PR-AUC e nao Acuracia?
 
 Em datasets com 99.87% de transacoes legitimas, um modelo que classifica tudo como "nao-fraude" teria 99.87% de acuracia. A PR-AUC avalia especificamente a capacidade do modelo de encontrar fraudes reais (recall) sem gerar excesso de falsos alarmes (precision).
@@ -78,7 +106,7 @@ Em datasets com 99.87% de transacoes legitimas, um modelo que classifica tudo co
 | Caracteristica | Valor |
 |----------------|-------|
 | Transacoes | 6,362,620 |
-| Atributos | 11 originais + 7 construidos |
+| Atributos | 11 features no modelo (5 originais mantidas + 6 construidas) |
 | Fraudes | 8,213 (0.13%) |
 | Periodo | 30 dias simulados |
 | Tipos | CASH_IN, CASH_OUT, DEBIT, PAYMENT, TRANSFER |
@@ -90,27 +118,27 @@ Em datasets com 99.87% de transacoes legitimas, um modelo que classifica tudo co
 ## Arquitetura do Pipeline
 
 ```
-Dados Brutos (6.36M transacoes)
+Dados Brutos (6.362.620 transacoes, 11 colunas)
   |
   v
-Separacao do Conjunto de Validacao (10 fraudes + 90 legitimas)
+Engenharia de Atributos (6 construidas)
+  |-- balanceDeltaOrig / balanceDeltaDest   (variacao de saldo origem/destino)
+  |-- errorBalanceOrig / errorBalanceDest    (inconsistencia contabil do saldo)
+  |-- amountRatioOrig                          (valor / saldo de origem)
+  |-- type_encoded                             (tipo de transacao codificado)
+  |   descarta: nameOrig, nameDest, step, type bruto, isFlaggedFraud
   |
   v
-Engenharia de Atributos
-  |-- Diferencas de saldo (origem/destino)
-  |-- Discrepancias na mudanca de saldo
-  |-- Flag de destinatario comercial
-  |-- Padroes de saldo zerado
-  |-- One-hot encoding do tipo de transacao
+Split Estratificado Treino/Teste (80/20 -> 5,09M / 1,27M, preserva 0,13% de fraude)
   |
   v
-10-Fold Stratified Cross-Validation
+5-Fold Stratified CV no TREINO   (comparacao de modelos por PR-AUC)
   |
   v
-Selecao do Melhor Modelo (PR-AUC medio)
+Melhor Modelo: Random Forest
   |
   v
-Validacao Final no conjunto reservado
+Avaliacao no TESTE hold-out (1,27M)   ->   PR-AUC 0,9987
 ```
 
 ---
@@ -120,7 +148,7 @@ Validacao Final no conjunto reservado
 - **Desbalanceamento extremo** tratado com metricas adequadas (PR-AUC, nao acuracia)
 - **7 atributos construidos** a partir de padroes de saldo e tipo de transacao
 - **Otimizacao de memoria** com dtypes ajustados para processar 6.3M de linhas
-- **Validacao estratificada** que preserva a proporcao de fraude em cada fold
+- **Divisao estratificada** que preserva a proporcao de fraude em treino/teste e em cada fold
 
 ---
 
@@ -147,7 +175,7 @@ Avalia a sensibilidade da PR-AUC em relacao a proporcao treino/teste (50-90%), i
 | ML | scikit-learn (LR, DT, RF, GBM), XGBoost, LightGBM |
 | Dados | pandas, NumPy |
 | Visualizacao | Matplotlib, Seaborn, UMAP |
-| Validacao | StratifiedKFold, PR-AUC, ROC-AUC, Confusion Matrix |
+| Avaliacao | StratifiedKFold (CV), holdout temporal, PR-AUC, ROC-AUC, Confusion Matrix |
 | Qualidade | pytest (47 testes), black, isort, flake8, GitHub Actions |
 
 ---
