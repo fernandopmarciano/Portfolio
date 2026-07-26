@@ -44,6 +44,29 @@ F1 0.9800 - precisao 0.96 / recall 1.00 (1.643 fraudes). Estavel entre folds (RO
   (inconsistencia de saldo) pesam mais que os valores brutos.
 - **Validacao cruzada estratificada (5-fold)** com media +/- desvio para significancia estatistica.
 
+### Eficiencia de dados — quantas fraudes o modelo realmente precisa?
+
+Learning curve com **conjunto de teste fixo** (1,59M linhas): varia-se **apenas** o tamanho do
+treino (subamostragem estratificada, 3 seeds) para isolar o efeito da quantidade de dados.
+Resultado: o **Random Forest mantem PR-AUC ~0,997 treinando com apenas ~30 fraudes** — o sinal e
+aprendivel com pouquissimos exemplos. As 8.213 fraudes / 6,3M linhas sao **massivamente
+redundantes**, com impacto direto em custo e latencia de re-treino em producao.
+
+![Learning curve — PR-AUC vs numero de fraudes no treino](assets/learning_curve_vs_fraud.png)
+
+![Learning curve — PR-AUC vs tamanho do treino](assets/learning_curve_pr_auc.png)
+
+### Robustez — validacao cruzada 10-fold
+
+O 10-fold confirma o 5-fold: **Random Forest 0,9962** e **XGBoost 0,9967**.
+
+![Comparacao 10-fold entre modelos](assets/cv10_comparison.png)
+
+> Nota de rigor: o LightGBM apresentou uma incompatibilidade de versao **no ambiente local**
+> (excluido do 10-fold acima); seu resultado foi confirmado **no Kaggle** (PR-AUC 0,9967, tabela
+> acima), e o XGBoost teve 3 folds com falha numerica local (media sobre os 7 validos, n=7).
+> RandomForest e LogisticRegression rodaram limpos nos dois ambientes.
+
 ### Por que PR-AUC e nao Acuracia?
 
 Em datasets com 99.87% de transacoes legitimas, um modelo que classifica tudo como "nao-fraude" teria 99.87% de acuracia. A PR-AUC avalia especificamente a capacidade do modelo de encontrar fraudes reais (recall) sem gerar excesso de falsos alarmes (precision).
