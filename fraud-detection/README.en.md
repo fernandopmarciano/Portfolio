@@ -171,15 +171,15 @@ Agreement/disagreement across the 4 models via out-of-fold predictions (5-fold).
 **~3% disagreement zone is modestly fraud-enriched (~1.7x the base rate)** — a secondary signal for
 prioritizing human review.
 
-### Queue Emulation (latency and throughput)
+### Queue Emulation (inference throughput)
 
-Measures inference latency (p50/p95/p99) and per-batch throughput for each model.
-**Result — latency vs accuracy trade-off:** RandomForest is the most accurate (PR-AUC 0.998) but
-the **slowest** (p50 ~29 ms, ~27k tx/s); **LightGBM/XGBoost are ~100x faster** (1-2 ms,
-460-627k tx/s) with PR-AUC ~0.997. For **high-volume** production, a GBDT is worth the marginal
-accuracy gap.
+Measures per-model inference throughput (transactions/second) in batches.
+**Result — speed vs accuracy trade-off:** RandomForest is the most accurate (PR-AUC 0.998) but
+the **slowest** (~19k tx/s at batch 512); the **tuned GBDTs (XGBoost ~179k, LightGBM ~156k tx/s)
+are ~8-10x faster** with PR-AUC ~0.997; LogisticRegression is fastest (~911k tx/s) but its PR-AUC
+is only 0.55. For **high-volume** production, a tuned GBDT is the best accuracy/speed balance.
 
-![Throughput per model](assets/queue_throughput_bar.png)
+![Throughput per model](assets/en/queue_throughput_bar.png)
 
 ### PR-AUC Splits Analysis
 
@@ -187,7 +187,7 @@ PR-AUC sensitivity to the train/test ratio (50-90%, 3 repetitions).
 **Result:** RandomForest's PR-AUC stays **stable at ~0.9999 from 50% to 90% training** —
 insensitive to split size (reinforcing the learning curve's data efficiency).
 
-![PR-AUC vs training size](assets/splits_prauc.png)
+![PR-AUC vs training size](assets/en/splits_prauc.png)
 
 ### Explainability (SHAP) — why each alert?
 
