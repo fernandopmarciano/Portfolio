@@ -60,16 +60,16 @@ Learning curve with a **fixed test set** (1.59M rows): only the **training** siz
 signal is learnable from very few examples. The 8,213 frauds / 6.3M rows are **massively redundant**,
 with direct impact on retraining cost and latency in production.
 
-![Learning curve — PR-AUC vs number of frauds in training](assets/learning_curve_vs_fraud.png)
+![Learning curve — PR-AUC vs number of frauds in training](assets/en/learning_curve_vs_fraud.png)
 
-![Learning curve — PR-AUC vs training size](assets/learning_curve_pr_auc.png)
+![Learning curve — PR-AUC vs training size](assets/en/learning_curve_pr_auc.png)
 
 ### Robustness — 10-fold cross-validation
 
 10-fold confirms the 5-fold comparison across all four models: **XGBoost 0.9977 ± 0.0021**,
 LightGBM 0.9971 ± 0.0023, Random Forest 0.9962 ± 0.0025, Logistic Regression 0.5510 ± 0.0164.
 
-![10-fold model comparison](assets/cv10_comparison.png)
+![10-fold model comparison](assets/en/cv10_comparison.png)
 
 > GBDT tuning lesson: XGBoost and LightGBM require proper hyperparameters for extreme imbalance.
 > The library defaults (XGBoost 100 trees/lr=0.3; LightGBM `is_unbalance=True`) **destabilize
@@ -82,7 +82,7 @@ LightGBM 0.9971 ± 0.0023, Random Forest 0.9962 ± 0.0025, Logistic Regression 0
 Beyond the random split, I reserved the **last time period** as **validation** — data that
 **never** entered training or testing. Training only on the past and evaluating on the future:
 
-![Temporal generalization](assets/temporal_validation.png)
+![Temporal generalization](assets/en/temporal_validation.png)
 
 - **Fraud is non-stationary:** ~46% of frauds are in the last time decile (train 0.08% vs
   validation 0.33%). Even so, **the signal generalizes** — ROC-AUC ~1.0 in the future.
@@ -100,7 +100,7 @@ cost**: each **false negative** costs the **real value** of the fraud that slipp
 optimal point sits at **recall 99.6% / precision 100%** — the two failure regimes (low threshold =
 drowning in false positives; high = expensive fraud slips through) show at the curve's ends.
 
-![Operational cost curve](assets/cost_curve.png)
+![Operational cost curve](assets/en/cost_curve.png)
 
 ### Why PR-AUC and not Accuracy?
 
@@ -196,7 +196,7 @@ know *why* an alert fired). E.g.: a transaction that **emptied a R$1.15M account
 fraud with f(x)=1.0, and SHAP shows exactly which signals weighed in. SHAP's additivity property
 was validated by test (sum of SHAP + base = probability, error ~1e-14).
 
-![Individual explanation (SHAP waterfall)](assets/shap_waterfall.png)
+![Individual explanation (SHAP waterfall)](assets/en/shap_waterfall.png)
 
 ---
 
