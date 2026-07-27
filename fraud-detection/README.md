@@ -63,9 +63,10 @@ F1 0.9800 - precisao 0.96 / recall 1.00 (1.643 fraudes). Estavel entre folds (RO
 
 Learning curve com **conjunto de teste fixo** (1,59M linhas): varia-se **apenas** o tamanho do
 treino (subamostragem estratificada, 3 seeds) para isolar o efeito da quantidade de dados.
-Resultado: o **Random Forest mantem PR-AUC ~0,997 treinando com apenas ~30 fraudes** — o sinal e
-aprendivel com pouquissimos exemplos. As 8.213 fraudes / 6,3M linhas sao **massivamente
-redundantes**, com impacto direto em custo e latencia de re-treino em producao.
+Resultado: os **tres modelos de arvore (Random Forest, XGBoost, LightGBM) mantem PR-AUC ~0,97–0,999
+treinando com apenas ~30 fraudes** — o sinal e aprendivel com pouquissimos exemplos. As 8.213
+fraudes / 6,3M linhas sao **massivamente redundantes**, com impacto direto em custo e latencia de
+re-treino em producao.
 
 ![Learning curve — PR-AUC vs numero de fraudes no treino](assets/learning_curve_vs_fraud.png)
 
@@ -73,14 +74,17 @@ redundantes**, com impacto direto em custo e latencia de re-treino em producao.
 
 ### Robustez — validacao cruzada 10-fold
 
-O 10-fold confirma o 5-fold: **Random Forest 0,9962** e **XGBoost 0,9967**.
+O 10-fold confirma o 5-fold nos quatro modelos: **XGBoost 0,9977 ± 0,0021**, LightGBM 0,9971 ± 0,0023,
+Random Forest 0,9962 ± 0,0025 e Logistic Regression 0,5510 ± 0,0164.
 
 ![Comparacao 10-fold entre modelos](assets/cv10_comparison.png)
 
-> Nota de rigor: o LightGBM apresentou uma incompatibilidade de versao **no ambiente local**
-> (excluido do 10-fold acima); seu resultado foi confirmado **no Kaggle** (PR-AUC 0,9967, tabela
-> acima), e o XGBoost teve 3 folds com falha numerica local (media sobre os 7 validos, n=7).
-> RandomForest e LogisticRegression rodaram limpos nos dois ambientes.
+> Licao de tuning de GBDT: XGBoost e LightGBM exigem hiperparametros adequados para o
+> desbalanceamento extremo. Os *defaults* das bibliotecas (XGBoost 100 arvores/lr=0,3; LightGBM
+> `is_unbalance=True`) **desestabilizam a PR-AUC** — folds inteiros colapsam para ~0,01–0,05
+> enquanto o ROC-AUC permanece ~0,9 e **esconde** a falha. Com os configs tunados (500 arvores,
+> lr=0,05, regularizacao; `class_weight="balanced"`) os quatro modelos sao estaveis — verificado
+> **local e no Kaggle**.
 
 ### Validacao temporal — o modelo generaliza para o futuro?
 
@@ -169,9 +173,9 @@ Avaliacao no TESTE hold-out (1,27M)   ->   PR-AUC 0,9987
 ### Quadrant Analysis (concordancia entre modelos)
 
 Concordancia/discordancia entre os 4 modelos via predicoes out-of-fold (5-fold).
-**Resultado:** os 4 modelos concordam em **~86%** das transacoes; os **14% de discordancia
-concentram os casos dificeis** (mais fraude que a taxa base). A zona de desacordo e onde vale
-priorizar revisao humana.
+**Resultado:** com o config tunado, os 4 modelos sao **altamente concordantes (~97%)**; a pequena
+**zona de discordancia (~3%) e modestamente enriquecida em fraude (~1,7x a taxa base)** — um sinal
+secundario para priorizar revisao humana.
 
 ### Queue Emulation (latencia e throughput)
 

@@ -55,10 +55,10 @@ F1 0.9800 · precision 0.96 / recall 1.00 (1,643 frauds). Stable across folds (R
 ### Data efficiency — how many frauds does the model really need?
 
 Learning curve with a **fixed test set** (1.59M rows): only the **training** size varies
-(stratified subsampling, 3 seeds) to isolate the effect of data volume. Result: **Random Forest
-keeps PR-AUC ~0.997 training on just ~30 frauds** — the signal is learnable from very few examples.
-The 8,213 frauds / 6.3M rows are **massively redundant**, with direct impact on retraining cost
-and latency in production.
+(stratified subsampling, 3 seeds) to isolate the effect of data volume. Result: the **tree models
+(Random Forest, XGBoost, LightGBM) keep PR-AUC ~0.97–0.999 training on just ~30 frauds** — the
+signal is learnable from very few examples. The 8,213 frauds / 6.3M rows are **massively redundant**,
+with direct impact on retraining cost and latency in production.
 
 ![Learning curve — PR-AUC vs number of frauds in training](assets/learning_curve_vs_fraud.png)
 
@@ -66,14 +66,16 @@ and latency in production.
 
 ### Robustness — 10-fold cross-validation
 
-10-fold confirms 5-fold: **Random Forest 0.9962** and **XGBoost 0.9967**.
+10-fold confirms the 5-fold comparison across all four models: **XGBoost 0.9977 ± 0.0021**,
+LightGBM 0.9971 ± 0.0023, Random Forest 0.9962 ± 0.0025, Logistic Regression 0.5510 ± 0.0164.
 
 ![10-fold model comparison](assets/cv10_comparison.png)
 
-> Rigor note: LightGBM had a version incompatibility **in the local environment** (excluded from
-> the 10-fold above); its result was confirmed **on Kaggle** (PR-AUC 0.9967, table above), and
-> XGBoost had 3 folds with local numerical failure (mean over the 7 valid ones, n=7).
-> RandomForest and LogisticRegression ran clean in both environments.
+> GBDT tuning lesson: XGBoost and LightGBM require proper hyperparameters for extreme imbalance.
+> The library defaults (XGBoost 100 trees/lr=0.3; LightGBM `is_unbalance=True`) **destabilize
+> PR-AUC** — entire folds collapse to ~0.01–0.05 while ROC-AUC stays ~0.9 and **hides** it. With the
+> tuned configs (500 trees, lr=0.05, regularization; `class_weight="balanced"`) all four models are
+> stable — verified **locally and on Kaggle**.
 
 ### Temporal validation — does the model generalize to the future?
 
@@ -165,8 +167,9 @@ Evaluation on the hold-out TEST (1.27M)   ->   PR-AUC 0.9987
 ### Quadrant Analysis (model agreement)
 
 Agreement/disagreement across the 4 models via out-of-fold predictions (5-fold).
-**Result:** the 4 models agree on **~86%** of transactions; the **14% disagreement zone
-concentrates the hard cases** (more fraud than the base rate) — that's where human review pays off.
+**Result:** with tuned configs the 4 models are **highly concordant (~97% agreement)**; the small
+**~3% disagreement zone is modestly fraud-enriched (~1.7x the base rate)** — a secondary signal for
+prioritizing human review.
 
 ### Queue Emulation (latency and throughput)
 
