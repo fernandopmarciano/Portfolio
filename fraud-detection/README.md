@@ -177,13 +177,14 @@ Concordancia/discordancia entre os 4 modelos via predicoes out-of-fold (5-fold).
 **zona de discordancia (~3%) e modestamente enriquecida em fraude (~1,7x a taxa base)** — um sinal
 secundario para priorizar revisao humana.
 
-### Queue Emulation (latencia e throughput)
+### Queue Emulation (throughput de inferencia)
 
-Mede a latencia de inferencia (p50/p95/p99) e o throughput por batch de cada modelo.
-**Resultado — trade-off latencia x acuracia:** o RandomForest e o mais preciso (PR-AUC 0,998)
-mas o **mais lento** (p50 ~29 ms, ~27k tx/s); **LightGBM/XGBoost sao ~100x mais rapidos**
-(1-2 ms, 460-627k tx/s) com PR-AUC ~0,997. Para producao de **alto volume**, um GBDT compensa
-a diferenca marginal de acuracia.
+Mede o throughput de inferencia (transacoes/segundo) de cada modelo em batch.
+**Resultado — trade-off velocidade x acuracia:** o RandomForest e o mais preciso (PR-AUC 0,998)
+mas o **mais lento** (~19k tx/s em batch de 512); os **GBDTs tunados (XGBoost ~179k, LightGBM
+~156k tx/s) sao ~8-10x mais rapidos** com PR-AUC ~0,997; a LogisticRegression e a mais rapida
+(~911k tx/s) mas com PR-AUC de apenas 0,55. Para producao de **alto volume**, um GBDT tunado e o
+melhor equilibrio acuracia/velocidade.
 
 ![Throughput por modelo](assets/queue_throughput_bar.png)
 
