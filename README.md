@@ -9,7 +9,7 @@
 
 > Projetos de Machine Learning, Deep Learning, NLP e Produtos de IA aplicados a problemas reais.
 
-**Formacao:** Mestre em Engenharia Eletrica (Inteligencia Computacional e Machine Learning) | Graduado em Fisica
+**Formacao:** Mestre em Engenharia Eletrica (Inteligencia Computacional e Machine Learning) [COPPE-UFRJ] | Graduado em Fisica Bacharelado [UERJ]
 
 ---
 
@@ -17,7 +17,7 @@
 
 | Projeto | O que faz | Resultado |
 |---------|-----------|-----------|
-| [AVTP — Assistente Totalmente Privado](avtp/) | Assistente de IA 100% local (LLM, RAG, voz, 30+ ferramentas) rodando no proprio hardware | TTFT ~32-140ms, ~37 tok/s na RX 6600, speculative decoding +40.9%, ~975 testes (507 adversariais), custo R$ 0/mes |
+| [AVTP — Assistente Totalmente Privado](avtp/) | Assistente de IA 100% local (LLM, RAG, voz, 30+ tools criadas) rodando no proprio hardware | TTFT ~32-140ms, ~37 tok/s em uma RX 6600, speculative decoding +40.9%, ~975 testes (e2e e de segurança), custo R$ 0/mes |
 | [FM IA Solutions](fm-ia-solutions/) | Plataforma comercial de IA com chatbot, TTS e painel administrativo | 6 produtos, 924+ prompts estruturados para profissionais de diversas areas de atuacao, LGPD compliant |
 | [Hermes Telegram Bot](hermes-telegram-bot/) | Assistente pessoal no Telegram com controle financeiro, agenda e automacoes | 12 skills, 8 cron jobs, 124 testes E2E, operando 24/7 |
 
@@ -44,7 +44,7 @@
 | **NLP** | TF-IDF, Word2Vec, BERT, FinBERT, analise de sentimento |
 | **Visao Computacional** | Redes Siamesas, EfficientNetV2, metric learning, contrastive loss |
 | **IA Generativa** | Llama 3.3 70B (Groq), Google Gemini, TTS, streaming SSE |
-| **Validacao** | Walk-Forward, Stratified K-Fold, PR-AUC, Welch t-test |
+| **Validacao** | Walk-Forward, Stratified K-Fold, PR-AUC, t-test |
 | **Full-Stack** | Next.js, React, TypeScript, Node.js, Tailwind, Supabase, Docker |
 | **Seguranca** | LGPD, rate limiting, sanitizacao de input, CSP, OWASP |
 | **Infraestrutura** | Docker, Railway, Vercel, Google Cloud, GitHub Actions |
