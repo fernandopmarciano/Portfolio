@@ -1,6 +1,6 @@
 # Rocket Landing RL
 
-> Pouso autonomo de foguete em navio-drone (ASDS) com fisica 6DOF e neuroevolucao — o agente inclina o corpo para voar ate a barca e endireita para pousar, como um booster real.
+> Pouso autonomo de foguete em navio, com fisica 6DOF e neuroevolucao.
 
 [![Python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
 [![Version](https://img.shields.io/badge/version-0.10.0-informational)](#)
@@ -11,9 +11,9 @@
 
 ## Sobre o Projeto
 
-Simulacao fisica completa de um foguete (inspirado na recuperacao do booster Falcon 9) com jogo interativo em pygame e pipeline de treinamento por **neuroevolucao** (algoritmo genetico): o agente aprende a pousar na barca vindo de ate 160 m de distancia, controlando empuxo e rotacao.
+Simulacao física completa de um foguete (inspirado na recuperacao do booster Falcon 9) em jogo interativo usando pygame e pipeline de treinamento por **neuroevolução** (algoritmo genético): o agente aprende a pousar na barca vindo de ate 160 m de distancia, controlando empuxo e rotação.
 
-O diferencial da versao atual e o **controle realista rotate-and-thrust**: as acoes de inclinacao viram um comando de taxa de rotacao fly-by-wire (±40°/s) — para se deslocar lateralmente o agente precisa *inclinar o corpo e empurrar*, exatamente como um foguete de verdade. Nada de deslizar de lado "em pe".
+O diferencial da versão atual e o **controle realista rotate-and-thrust**: as ações de inclinação viram um comando de taxa de rotacao fly-by-wire (±40°/s) — para se deslocar lateralmente o agente precisa *inclinar o corpo e empurrar*, exatamente como um foguete de verdade. Nada de deslizar de lado "em pe".
 
 ![Pouso autonomo rotate-and-thrust no navio-drone](assets/realistic_landing.gif)
 
