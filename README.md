@@ -33,6 +33,7 @@
 | [Fraud Detection](fraud-detection/) | Classificacao Binaria / Financas | PR-AUC >0.98 em 6.3M de transacoes + analise de quadrantes e emulacao de fila |
 | [Rocket Landing RL](rocket-landing-rl/) | Aprendizado por Reforco / Neuroevolucao | Pouso autonomo rotate-and-thrust em fisica 6DOF: 100% na fase curta e 82% vindo de 140-160m sob criterios estritos, toque a 1,5 m/s |
 | [Iris Classifier](iris-classifier/) | Classificacao Multiclasse | Analise exploratoria completa, 7 algoritmos comparados, 100% na validacao |
+| [Pokemon TCG Agent](pokemon-tcg-agent/) | Agentes / Metodologia de Medicao | Pokemon TCG AI Battle Challenge (Strategy), encerrado em 13/09/2026: 37 pp de vitoria atribuidos ao agente pertenciam as cartas; lista sozinha vence 89,2% [88,0; 90,2] |
 
 ---
 
