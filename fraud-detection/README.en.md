@@ -55,32 +55,34 @@ F1 0.9800 · precision 0.96 / recall 1.00 (1,643 frauds). Stable across folds (R
 ### Data efficiency — how many frauds does the model really need?
 
 Learning curve with a **fixed test set** (1.59M rows): only the **training** size varies
-(stratified subsampling, 3 seeds) to isolate the effect of data volume. Result: **Random Forest
-keeps PR-AUC ~0.997 training on just ~30 frauds** — the signal is learnable from very few examples.
-The 8,213 frauds / 6.3M rows are **massively redundant**, with direct impact on retraining cost
-and latency in production.
+(stratified subsampling, 3 seeds) to isolate the effect of data volume. Result: the **tree models
+(Random Forest, XGBoost, LightGBM) keep PR-AUC ~0.97–0.999 training on just ~30 frauds** — the
+signal is learnable from very few examples. The 8,213 frauds / 6.3M rows are **massively redundant**,
+with direct impact on retraining cost and latency in production.
 
-![Learning curve — PR-AUC vs number of frauds in training](assets/learning_curve_vs_fraud.png)
+![Learning curve — PR-AUC vs number of frauds in training](assets/en/learning_curve_vs_fraud.png)
 
-![Learning curve — PR-AUC vs training size](assets/learning_curve_pr_auc.png)
+![Learning curve — PR-AUC vs training size](assets/en/learning_curve_pr_auc.png)
 
 ### Robustness — 10-fold cross-validation
 
-10-fold confirms 5-fold: **Random Forest 0.9962** and **XGBoost 0.9967**.
+10-fold confirms the 5-fold comparison across all four models: **XGBoost 0.9977 ± 0.0021**,
+LightGBM 0.9971 ± 0.0023, Random Forest 0.9962 ± 0.0025, Logistic Regression 0.5510 ± 0.0164.
 
-![10-fold model comparison](assets/cv10_comparison.png)
+![10-fold model comparison](assets/en/cv10_comparison.png)
 
-> Rigor note: LightGBM had a version incompatibility **in the local environment** (excluded from
-> the 10-fold above); its result was confirmed **on Kaggle** (PR-AUC 0.9967, table above), and
-> XGBoost had 3 folds with local numerical failure (mean over the 7 valid ones, n=7).
-> RandomForest and LogisticRegression ran clean in both environments.
+> GBDT tuning lesson: XGBoost and LightGBM require proper hyperparameters for extreme imbalance.
+> The library defaults (XGBoost 100 trees/lr=0.3; LightGBM `is_unbalance=True`) **destabilize
+> PR-AUC** — entire folds collapse to ~0.01–0.05 while ROC-AUC stays ~0.9 and **hides** it. With the
+> tuned configs (500 trees, lr=0.05, regularization; `class_weight="balanced"`) all four models are
+> stable — verified **locally and on Kaggle**.
 
 ### Temporal validation — does the model generalize to the future?
 
 Beyond the random split, I reserved the **last time period** as **validation** — data that
 **never** entered training or testing. Training only on the past and evaluating on the future:
 
-![Temporal generalization](assets/temporal_validation.png)
+![Temporal generalization](assets/en/temporal_validation.png)
 
 - **Fraud is non-stationary:** ~46% of frauds are in the last time decile (train 0.08% vs
   validation 0.33%). Even so, **the signal generalizes** — ROC-AUC ~1.0 in the future.
@@ -98,7 +100,7 @@ cost**: each **false negative** costs the **real value** of the fraud that slipp
 optimal point sits at **recall 99.6% / precision 100%** — the two failure regimes (low threshold =
 drowning in false positives; high = expensive fraud slips through) show at the curve's ends.
 
-![Operational cost curve](assets/cost_curve.png)
+![Operational cost curve](assets/en/cost_curve.png)
 
 ### Why PR-AUC and not Accuracy?
 
@@ -165,18 +167,19 @@ Evaluation on the hold-out TEST (1.27M)   ->   PR-AUC 0.9987
 ### Quadrant Analysis (model agreement)
 
 Agreement/disagreement across the 4 models via out-of-fold predictions (5-fold).
-**Result:** the 4 models agree on **~86%** of transactions; the **14% disagreement zone
-concentrates the hard cases** (more fraud than the base rate) — that's where human review pays off.
+**Result:** with tuned configs the 4 models are **highly concordant (~97% agreement)**; the small
+**~3% disagreement zone is modestly fraud-enriched (~1.7x the base rate)** — a secondary signal for
+prioritizing human review.
 
-### Queue Emulation (latency and throughput)
+### Queue Emulation (inference throughput)
 
-Measures inference latency (p50/p95/p99) and per-batch throughput for each model.
-**Result — latency vs accuracy trade-off:** RandomForest is the most accurate (PR-AUC 0.998) but
-the **slowest** (p50 ~29 ms, ~27k tx/s); **LightGBM/XGBoost are ~100x faster** (1-2 ms,
-460-627k tx/s) with PR-AUC ~0.997. For **high-volume** production, a GBDT is worth the marginal
-accuracy gap.
+Measures per-model inference throughput (transactions/second) in batches.
+**Result — speed vs accuracy trade-off:** RandomForest is the most accurate (PR-AUC 0.998) but
+the **slowest** (~19k tx/s at batch 512); the **tuned GBDTs (XGBoost ~179k, LightGBM ~156k tx/s)
+are ~8-10x faster** with PR-AUC ~0.997; LogisticRegression is fastest (~911k tx/s) but its PR-AUC
+is only 0.55. For **high-volume** production, a tuned GBDT is the best accuracy/speed balance.
 
-![Throughput per model](assets/queue_throughput_bar.png)
+![Throughput per model](assets/en/queue_throughput_bar.png)
 
 ### PR-AUC Splits Analysis
 
@@ -184,7 +187,7 @@ PR-AUC sensitivity to the train/test ratio (50-90%, 3 repetitions).
 **Result:** RandomForest's PR-AUC stays **stable at ~0.9999 from 50% to 90% training** —
 insensitive to split size (reinforcing the learning curve's data efficiency).
 
-![PR-AUC vs training size](assets/splits_prauc.png)
+![PR-AUC vs training size](assets/en/splits_prauc.png)
 
 ### Explainability (SHAP) — why each alert?
 
@@ -193,7 +196,7 @@ know *why* an alert fired). E.g.: a transaction that **emptied a R$1.15M account
 fraud with f(x)=1.0, and SHAP shows exactly which signals weighed in. SHAP's additivity property
 was validated by test (sum of SHAP + base = probability, error ~1e-14).
 
-![Individual explanation (SHAP waterfall)](assets/shap_waterfall.png)
+![Individual explanation (SHAP waterfall)](assets/en/shap_waterfall.png)
 
 ---
 
