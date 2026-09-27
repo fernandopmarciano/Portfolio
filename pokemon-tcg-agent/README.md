@@ -153,8 +153,7 @@ acumular replicatas
 
 ## Autor
 
-**Fernando Marciano** — Mestre em Engenharia Elétrica (Inteligência
-Computacional e Machine Learning), graduado em Física.
+**Fernando Marciano**
 
 ---
 
