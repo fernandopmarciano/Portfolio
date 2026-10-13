@@ -7,8 +7,6 @@
 ![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=next.js&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)
 
-> Projetos de Machine Learning, Deep Learning, NLP e Produtos de IA aplicados a problemas reais.
-
 **Formacao:** Mestre em Engenharia Eletrica (Inteligencia Computacional e Machine Learning) [COPPE-UFRJ] | Graduado em Fisica Bacharelado [UERJ]
 
 ---
@@ -18,8 +16,8 @@
 | Projeto | O que faz | Resultado |
 |---------|-----------|-----------|
 | [AVTP — Assistente Totalmente Privado](avtp/) | Assistente de IA 100% local (LLM, RAG, voz, 30+ tools criadas) rodando no proprio hardware | TTFT ~32-140ms, ~37 tok/s em uma RX 6600, speculative decoding +40.9%, ~975 testes (e2e e de segurança), custo R$ 0/mes |
-| [FM IA Solutions](fm-ia-solutions/) | Plataforma comercial de IA com chatbot, TTS e painel administrativo | 6 produtos, 924+ prompts estruturados para profissionais de diversas areas de atuacao, LGPD compliant |
-| [Hermes Telegram Bot](hermes-telegram-bot/) | Assistente pessoal no Telegram com controle financeiro, agenda e automacoes | 12 skills, 8 cron jobs, 124 testes E2E, operando 24/7 |
+| [FM IA Solutions](fm-ia-solutions/) | Plataforma de IA com chatbot, TTS e painel administrativo | produtos, 924+ prompts estruturados para profissionais de diversas areas de atuacao, LGPD compliant |
+| [Hermes Telegram Bot](hermes-telegram-bot/) | Assistente pessoal no Telegram com controle financeiro, agenda e automações | 12 skills, 8 cron jobs, 124 testes E2E, operando 24/7 | Validado |
 
 ---
 
@@ -27,13 +25,13 @@
 
 | Projeto | Area | Resultado Principal |
 |---------|------|---------------------|
-| [Market Forecast](market-forecast/) | Series Temporais / Financas | Directional Accuracy 60.2%, Sharpe 2.31, retorno simulado de +1368% (backtest 2017-2024) |
+| [Market Forecast](market-forecast/) | Series Temporais / Finanças | Directional Accuracy 60.2%, Sharpe 2.31, retorno simulado de +1368% (backtest 2017-2024) |
 | [Logo Forgery Detection](logo-forgery-detection/) | Visao Computacional | AUC-ROC 0.97, Recall@1 de 0.95 na busca por similaridade |
 | [NLP Sentiment](nlp-sentiment/) | Processamento de Linguagem Natural | 4 abordagens comparadas: TF-IDF, Word2Vec, BERT, FinBERT + exportacao de sentimento cross-project |
-| [Fraud Detection](fraud-detection/) | Classificacao Binaria / Financas | PR-AUC >0.98 em 6.3M de transacoes + analise de quadrantes e emulacao de fila |
-| [Rocket Landing RL](rocket-landing-rl/) | Aprendizado por Reforco / Neuroevolucao | Pouso autonomo rotate-and-thrust em fisica 6DOF: 100% na fase curta e 82% vindo de 140-160m sob criterios estritos, toque a 1,5 m/s |
-| [Iris Classifier](iris-classifier/) | Classificacao Multiclasse | Analise exploratoria completa, 7 algoritmos comparados, 100% na validacao |
+| [Fraud Detection](fraud-detection/) | Classificação Binaria / Financas | PR-AUC >0.98 em 6.3M de transacoes + analise de quadrantes e emulacao de fila |
+| [Rocket Landing RL](rocket-landing-rl/) | Aprendizado por Reforco / Neuroevolucao | Pouso autonomo rotate-and-thrust em fisica 6DOF: 100% na fase curta e 82% vindo de 140-160m sob criterios estritos(a melhorar) |
 | [Pokemon TCG Agent](pokemon-tcg-agent/) | Agentes / Metodologia de Medicao | Pokemon TCG AI Battle Challenge (Strategy), encerrado em 13/09/2026: 37 pp de vitoria atribuidos ao agente pertenciam as cartas; lista sozinha vence 89,2% [88,0; 90,2] |
+| [Iris Classifier](iris-classifier/) | Classificacao Multiclasse | Analise exploratoria completa, 7 algoritmos comparados, "hello world" |
 
 ---
 
